@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Giveaway Winner Picker</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 300px;
+            height: 150px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        button#pickWinner {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button#pickWinner:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            color: #ff4444;
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .paypal-container {
+            margin-top: auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Instant Giveaway Winner Picker</h1>
+    
+    <textarea id="entries" placeholder="Enter names (one per line), like:&#10;Alice&#10;Bob&#10;Charlie"></textarea>
+    
+    <button id="pickWinner">Pick Winner!</button>
+    
+    <div id="result">Winner: [Waiting...]</div>
+
+    <div class="paypal-container">
+        <form action="https://www.paypal.com/donate" method="post" target="_top">
+            <input type="hidden" name="business" value="YOUR_EMAIL" />
+            <input type="hidden" name="no_recurring" value="0" />
+            <input type="hidden" name="currency_code" value="USD" />
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+            <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('pickWinner').addEventListener('click', function() {
+            // Get and process entries
+            const entriesText = document.getElementById('entries').value;
+            const entries = entriesText.split('\n').filter(entry => entry.trim() !== '');
+            
+            // Check if there are entries
+            if (entries.length === 0) {
+                document.getElementById('result').textContent = 'No entries provided!';
+                return;
+            }
+            
+            // Pick random winner
+            const winner = entries[Math.floor(Math.random() * entries.length)];
+            document.getElementById('result').textContent = `Winner: ${winner}`;
+            
+            // Trigger confetti
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        });
+    </script>
+</body>
+</html> 
